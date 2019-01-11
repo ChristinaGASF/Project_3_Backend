@@ -17,4 +17,4 @@ const posts = new mongoose.Schema({
     },
     
 });
-module.exports = mongoose.model('users',posts); 
+module.exports = mongoose.model('posts',posts); 
