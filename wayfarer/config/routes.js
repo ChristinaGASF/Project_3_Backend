@@ -1,5 +1,5 @@
 module.exports = {
-    defaultRoute :'default',
-    pageNotFound : ''
+    defaultController :'home',
+    pageNotFoundView  : 'pageNotFound'
 
 }
