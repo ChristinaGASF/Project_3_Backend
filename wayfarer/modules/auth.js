@@ -31,5 +31,15 @@ module.exports ={
     },
     genToken:function(data){
         return jwt.sign({ data: data }, this.secretKey);
+    },
+    getIdFromToken(jwt,cb){
+        jwt.verify(token, 'shhhhh', function(err, data) {
+            if(err){
+                cb("error",null);
+            }
+            else{
+                cb(false,data);
+            }
+        });
     }
 }

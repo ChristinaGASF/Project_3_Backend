@@ -3,6 +3,9 @@ var router = express.Router();
 var auth   = require('../modules/auth');
 var db       = require('../models');
 var bcrypt     = require('bcryptjs');
+
+
+
 router.get('/', function(req, res, next) {   
   res.render('index', { title: 'this is user js' });
 });
@@ -63,6 +66,15 @@ router.post('/signup', function(req, res) {
     }  
 });
 router.put('/edit/:type',function(req,res){
-
+    var types = ['name','city','profilePic','username','password'];
+    var paramData = req.params.type;
+    if(!types.includes(paramData)){
+        res.status(400).json({"message":"invalid request","status":false});
+    }else{
+       
+        if(paramData ==='name'){
+           
+        }
+    }
 });
 module.exports = router;
