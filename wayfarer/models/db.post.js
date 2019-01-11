@@ -11,6 +11,10 @@ const posts = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'users'
         },
+    cityid:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'cities'
+    },
     
 });
 module.exports = mongoose.model('users',posts); 
