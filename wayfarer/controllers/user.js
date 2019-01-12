@@ -41,7 +41,8 @@ router.post('/signup', function(req, res) {
     else{
         bcrypt.hash(password, 8, function(err, hash) {
             if(err){
-                res.status(500).json({"message":"error found","status":false});
+                
+                res.status(500).json({"message":"password error found","status":false});
             }
             else{
                
@@ -51,7 +52,7 @@ router.post('/signup', function(req, res) {
                     profilePic:'none'
                  }, function (err, data) {
                    if(err){
-                    res.status(500).json({"message":"error found","status":false});
+                    res.status(500).json({"message":err,"status":false});
                    }
                    else{
                         res.set({
