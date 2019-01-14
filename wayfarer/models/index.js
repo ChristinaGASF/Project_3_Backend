@@ -9,6 +9,5 @@ const home = require('./index')
 module.exports = {
     posts   : posts,
     users  : users,
-    cities : cities,
     home : home
 }

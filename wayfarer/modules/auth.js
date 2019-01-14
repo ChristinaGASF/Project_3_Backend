@@ -33,8 +33,9 @@ module.exports ={
     genToken:function(data){
         return jwt.sign({ data: data }, this.secretKey);
     },
-    getIdFromToken(jwt,cb){
-        jwt.verify(token, 'shhhhh', function(err, data) {
+    getIdFromToken(token,cb){
+    
+        jwt.verify(token, this.secretKey, function(err, data) {
             if(err){
                 cb("error",null);
             }

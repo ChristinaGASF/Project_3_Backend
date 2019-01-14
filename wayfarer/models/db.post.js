@@ -4,17 +4,14 @@ const posts = new mongoose.Schema({
     title:String,
     body:String,
     city: String,
-    date:Number,
+    date:String,
     pic:String,
     commentStatus:Boolean,
     userid:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'users'
         },
-    cityid:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'cities'
-    },
+    cityid:Number
     
 });
 module.exports = mongoose.model('posts',posts); 

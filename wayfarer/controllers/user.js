@@ -24,7 +24,9 @@ router.post('/login', function(req, res) {
             }
         }
         else{
-            res.json({"data":data,"status":true, username, password });
+            res.set({
+                
+            }).json({"message":"login successful", "status":true,'token': auth.genToken(data._id)})
         }
         
     });
@@ -55,10 +57,7 @@ router.post('/signup', function(req, res) {
                     res.status(500).json({"message":err,"status":false});
                    }
                    else{
-                        res.set({
-                            'x-token': auth.genToken(data._id)
-                        })
-                        .json({"message":"Login sucessfully","status":true});
+                        res.json({"message":"Login sucessfully","status":true});
                         
                    }
                 });
