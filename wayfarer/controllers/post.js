@@ -2,12 +2,21 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var auth = require('../modules/auth')
+const multer = require(`multer`);
+const storage = multer.diskStorage({
+   destination: `./public/images/upload`,
+   filename: function(req, file, cb) {
+       let name = file.originalname.split(`.`);
+       cb(null, file.originalname + `-` + Date.now()+"."+name[1]);
+   }
+});
+const upload = multer({ storage: storage});
 
 
 router.get('/', function(req, res, next) {   
   res.render('index', { title: 'this is post js' });
 });
-router.post('/newpost', function(req, res) {
+router.post('/newpost', upload.single("img"), function(req, res) {
   
   var title = req.body.title;
   var body = req.body.body;
@@ -25,7 +34,8 @@ router.post('/newpost', function(req, res) {
       city: city,
       date: date,
       userid: data.data,
-      cityid: cityid
+      cityid: cityid,
+      pic: req.file.filename
    }, function (err, data) {
      if(err){
       res.status(500).json({"message":err,"status":false});
@@ -50,7 +60,8 @@ router.get('/city/:id', function(req,res){
           "cityid": post.cityid,
         "title": post.title,
         "body": post.body,
-        "image": post.pic}
+        "image": post.pic
+      }
           
         
       
