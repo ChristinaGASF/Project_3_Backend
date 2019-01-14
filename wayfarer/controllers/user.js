@@ -24,7 +24,7 @@ router.post('/login', function(req, res) {
             }
         }
         else{
-            res.json({"data":data,"status":true});
+            res.json({"data":data,"status":true, username, password });
         }
         
     });
