@@ -77,4 +77,23 @@ router.put('/edit/:type',function(req,res){
         }
     }
 });
+router.get('/post/:id', function(req,res){
+    db.posts.find({userid: req.params.id }).exec(function(err, data){
+      if(err){
+        res.json({"error":err})
+      }else{
+        const posts = data.map((post, index)=>{
+          return {
+            "cityid": post.cityid,
+          "title": post.title,
+          "body": post.body,
+          "image": post.pic}
+            
+          
+        
+        })
+        res.json(posts)
+        }
+      })
+    })
 module.exports = router;

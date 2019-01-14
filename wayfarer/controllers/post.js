@@ -24,7 +24,7 @@ router.post('/newpost', function(req, res) {
       body: body,
       city: city,
       date: date,
-      userid: userid,
+      userid: data.data,
       cityid: cityid
    }, function (err, data) {
      if(err){
