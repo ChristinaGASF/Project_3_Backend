@@ -68,9 +68,11 @@ router.post('/signup', function(req, res) {
         }); 
     }  
 });
-router.put('/edit/:type',function(req,res){
-    var types = ['fullname','city'];
-    var paramData = req.params.type;
+router.put('/edit/profile',function(req,res){
+   
+    var fullname = req.params.fullname;
+    var updateData = {};
+    var city = req.params.city;
     var token = req.body.token
  
     auth.getIdFromToken(token, (err,data)=>{
@@ -79,51 +81,50 @@ router.put('/edit/:type',function(req,res){
             res.status(500).json({"message":"Invalid token"});
         }
         else{
-            var indx = types.indexOf(paramData);
-            if(indx === -1){
-                res.status(500).json({"message":"invalid request","status":false});
-            }else{
-                var updateValue = '';
-                if(paramData ==='fullname'){
-                    updateValue = req.body.fullname;
+            if(city!== undefined && city !==''){
+                updateData.city = city;
+            }
+            if(fullname!== undefined && fullname !==''){
+                updateData.fullname = fullname;
+            }
+            db.users.findOneAndUpdate({_id:data.data},updateData,(err,updates)=>{
+                if(err){
+                    res.json({"message":"error in updates","status":false})
                 }
                 else{
-                    updateValue  = req.body.city;
+                    res.json({"data":updates,"status":true})
                 }
-                updateData = {};
-                updateData[types[indx]] = updateValue;
-                db.users.findOneAndUpdate({_id:data.data},updateData,(err,updates)=>{
-                    if(err){
-                        res.json({"message":"error in updates","status":false})
-                    }
-                    else{
-                        res.json({"message":"update sucesfull","status":true})
-                    }
-                })
-            }
+            })
+        } 
+    });
+});
+router.post('/post', function(req,res){
+    var token = req.body.token
+ 
+    auth.getIdFromToken(token, (err,data)=>{
+        if(err){
+            res.json({"message":"invalid token","status":false});
+        }
+        else{
+            db.posts.find({userid: data.data }).exec(function(err, data){
+                if(err){
+                    res.json({"error":err})
+                }else{
+                    const posts = data.map((post, index)=>{
+                    return {
+                            "cityid": post.cityid,
+                            "title": post.title,
+                            "body": post.body,
+                            "image": post.pic
+                        }
+                    });
+                    res.json(posts)
+                }
+            })
         }
         
     });
 });
-router.get('/post/:id', function(req,res){
-    db.posts.find({userid: req.params.id }).exec(function(err, data){
-      if(err){
-        res.json({"error":err})
-      }else{
-        
-        const posts = data.map((post, index)=>{
-            return {
-                "cityid": post.cityid,
-                "title": post.title,
-                "body": post.body,
-                "image": post.pic,
-            
-            }
-        })
-        res.json(posts)
-        }
-      })
-    })
     router.post('/profile',function(req,res){
         var token = req.body.token;
         auth.getIdFromToken(token, (err,data)=>{
@@ -135,7 +136,7 @@ router.get('/post/:id', function(req,res){
             }
             else{
                 db.users.findOne({_id:data.data},function(err,userdata){
-                    console.log(userdata)
+                 
                     if(err){
                         res.json({
                             "message":"invalid query",
