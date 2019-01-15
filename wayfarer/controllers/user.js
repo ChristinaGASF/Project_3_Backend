@@ -3,9 +3,6 @@ var router = express.Router();
 var auth   = require('../modules/auth');
 var db       = require('../models');
 var bcrypt     = require('bcryptjs');
-
-
-
 router.get('/', function(req, res, next) {   
   res.render('index', { title: 'this is user js' });
 });
@@ -70,9 +67,9 @@ router.post('/signup', function(req, res) {
 });
 router.put('/edit/profile',function(req,res){
    
-    var fullname = req.params.fullname;
+    var fullname = req.body.fullname;
     var updateData = {};
-    var city = req.params.city;
+    var city = req.body.city;
     var token = req.body.token
  
     auth.getIdFromToken(token, (err,data)=>{
@@ -92,7 +89,14 @@ router.put('/edit/profile',function(req,res){
                     res.json({"message":"error in updates","status":false})
                 }
                 else{
-                    res.json({"data":updates,"status":true})
+                    db.users.findOne({_id:data.data},(err,userdata)=>{
+                        if(err){
+                            res.json({"message":"error","status":false})
+                        }else{
+                            res.json({"data":userdata,"status":true})
+                        }
+                    });
+                    
                 }
             })
         } 
@@ -158,5 +162,4 @@ router.post('/post', function(req,res){
      
         });
      });
-
 module.exports = router;
