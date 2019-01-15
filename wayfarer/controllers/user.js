@@ -82,15 +82,15 @@ router.get('/post/:id', function(req,res){
       if(err){
         res.json({"error":err})
       }else{
-        const posts = data.map((post, index)=>{
-          return {
-            "cityid": post.cityid,
-          "title": post.title,
-          "body": post.body,
-          "image": post.pic}
-            
-          
         
+        const posts = data.map((post, index)=>{
+            return {
+                "cityid": post.cityid,
+                "title": post.title,
+                "body": post.body,
+                "image": post.pic,
+            
+            }
         })
         res.json(posts)
         }
