@@ -36,6 +36,7 @@ router.post('/signup', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var conPassword = req.body.conpassword;
+    var city = req.body.city
    
     if(password  !== conPassword){
         res.json({"message":"Password not match with Conform Password","status":false})
@@ -52,7 +53,8 @@ router.post('/signup', function(req, res) {
                     username:username,
                     date: new Date (),
                     password:hash,
-                    profilePic:'none'
+                    profilePic:'none',
+                    city: city
                  }, function (err, data) {
                    if(err){
                     res.status(500).json({"message":err,"status":false});
@@ -134,7 +136,7 @@ router.post('/post', function(req,res){
             }
             else{
                 db.users.findOne({_id:data.data},function(err,userdata){
-                    console.log(userdata)
+                 
                     if(err){
                         res.json({
                             "message":"invalid query",
