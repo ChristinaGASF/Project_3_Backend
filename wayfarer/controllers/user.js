@@ -50,6 +50,7 @@ router.post('/signup', function(req, res) {
                
                 db.users.create({
                     username:username,
+                    date: new Date (),
                     password:hash,
                     profilePic:'none'
                  }, function (err, data) {
@@ -96,4 +97,38 @@ router.get('/post/:id', function(req,res){
         }
       })
     })
+    router.post('/profile',function(req,res){
+        var token = req.body.token;
+        auth.getIdFromToken(token, (err,data)=>{
+            if(err){
+                res.json({
+                    "message":"Internal server error",
+                    "status":false
+                })
+            }
+            else{
+                db.users.findOne({_id:data.data},function(err,userdata){
+                    console.log(userdata)
+                    if(err){
+                        res.json({
+                            "message":"invalid query",
+                            "status":false
+                        })
+                    }else{
+                        res.json({
+                            "data":{
+                                "fullname":userdata.fullname,
+                                "profilePic":userdata.profilePic,
+                                "city": userdata.city,
+                                "date":userdata.date,
+                            },
+                            "status":true
+                        })
+                    }
+                });
+            }
+     
+        });
+     });
+
 module.exports = router;
