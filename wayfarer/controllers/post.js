@@ -25,7 +25,7 @@ router.post('/newpost', upload.single("img"), function(req, res) {
   var userid = req.body.userid;
   var cityid = req.body.cityid
   var token = req.body.token
-  console.log(token);
+  
   auth.getIdFromToken(token, (err,data)=>{
     console.log(data.data);
     db.posts.create({
@@ -41,7 +41,7 @@ router.post('/newpost', upload.single("img"), function(req, res) {
       res.status(500).json({"message":err,"status":false});
      }
      else{
-          console.log(data);
+         
      }
   });
   })
