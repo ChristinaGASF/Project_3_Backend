@@ -69,16 +69,41 @@ router.post('/signup', function(req, res) {
     }  
 });
 router.put('/edit/:type',function(req,res){
-    var types = ['name','city','profilePic','username','password'];
+    var types = ['fullname','city'];
     var paramData = req.params.type;
-    if(!types.includes(paramData)){
-        res.status(400).json({"message":"invalid request","status":false});
-    }else{
-       
-        if(paramData ==='name'){
-           
+    var token = req.body.token
+ 
+    auth.getIdFromToken(token, (err,data)=>{
+        
+        if(err){
+            res.status(500).json({"message":"Invalid token"});
         }
-    }
+        else{
+            var indx = types.indexOf(paramData);
+            if(indx === -1){
+                res.status(500).json({"message":"invalid request","status":false});
+            }else{
+                var updateValue = '';
+                if(paramData ==='fullname'){
+                    updateValue = req.body.fullname;
+                }
+                else{
+                    updateValue  = req.body.city;
+                }
+                updateData = {};
+                updateData[types[indx]] = updateValue;
+                db.users.findOneAndUpdate({_id:data.data},updateData,(err,updates)=>{
+                    if(err){
+                        res.json({"message":"error in updates","status":false})
+                    }
+                    else{
+                        res.json({"message":"update sucesfull","status":true})
+                    }
+                })
+            }
+        }
+        
+    });
 });
 router.get('/post/:id', function(req,res){
     db.posts.find({userid: req.params.id }).exec(function(err, data){
