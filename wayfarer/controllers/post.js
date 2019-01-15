@@ -49,6 +49,35 @@ router.post('/newpost', upload.single("img"), function(req, res) {
   
   
 });
+router.delete('/:id', function(req,res){
+  db.posts.findOneAndDelete({id:req.params._id}).exec(function(err, data){
+    if(err){
+      res.json({"error": err})
+    }else {
+      res.json({data})
+      console.log("deleted");
+    }
+  })
+
+
+})
+router.put('/edit/:id', function(req,res){
+  var title = req.body.title
+  var body = req.body.body
+  var image = req.body.img
+  db.posts.findOneAndUpdate({id:req.params._id}).exec(function(err,data){
+    if(err){
+      res.json({"error": err})
+    }else{
+      data.title = title;
+      data.body = body;
+      res.json({data})
+      
+    }
+  })
+  
+})
+
 
 router.get('/city/:id', function(req,res){
   db.posts.find({cityid: req.params.id }).exec(function(err, data){
@@ -60,7 +89,8 @@ router.get('/city/:id', function(req,res){
           "cityid": post.cityid,
         "title": post.title,
         "body": post.body,
-        "image": post.pic
+        "image": post.pic,
+        "id": post._id
       }
           
         
