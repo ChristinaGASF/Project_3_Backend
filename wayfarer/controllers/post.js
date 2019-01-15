@@ -25,11 +25,7 @@ router.post('/newpost', upload.single("img"), function(req, res) {
   var userid = req.body.userid;
   var cityid = req.body.cityid
   var token = req.body.token
-<<<<<<< HEAD
  
-=======
-  
->>>>>>> c04c7a049f1f98311f1c1d3d1e86f9755c103bb0
   auth.getIdFromToken(token, (err,data)=>{
     
     db.posts.create({
@@ -65,7 +61,7 @@ router.delete('/:id', function(req,res){
 
 
 })
-router.put('/edit/:id', function(req,res){
+router.post('/edit/:id', function(req,res){
   var title = req.body.title
   var body = req.body.body
   var image = req.body.img
@@ -73,9 +69,11 @@ router.put('/edit/:id', function(req,res){
     if(err){
       res.json({"error": err})
     }else{
-      data.title = title;
-      data.body = body;
-      res.json({data})
+
+      return{
+        "title": data.title,
+        "body": data.body
+      }
       
     }
   })
