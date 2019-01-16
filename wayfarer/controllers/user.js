@@ -11,23 +11,28 @@
     
     var username = req.body.username;
     var password = req.body.password;
-    
-    auth.validateLogin(username,password,function(err,data){
-        if(err){
-        if(err==='invalidUsername' || err==='invalidPassword'){
-            res.json({"message":"invalid username or password","status":false})
-        }
-        else{
-            res.status(500).json({"message":"invalid username or password","status":false})
-        }
-        }
-        else{
-        res.set({
+    if(username.replace(/\s/g,'')=='' || password.replace(/\s/g,'')==''){
+        res.json({"message":"invalid username or password","status":false})
+    }
+    else{
+        auth.validateLogin(username,password,function(err,data){
+            if(err){
+            if(err==='invalidUsername' || err==='invalidPassword'){
+                res.json({"message":"invalid username or password","status":false})
+            }
+            else{
+                res.status(500).json({"message":"invalid username or password","status":false})
+            }
+            }
+            else{
+            res.set({
+                
+            }).json({"message":"login successful", "status":true,'token': auth.genToken(data._id)})
+            }
             
-        }).json({"message":"login successful", "status":true,'token': auth.genToken(data._id)})
-        }
-        
-    });
+        });
+    }
+   
     });
 router.post('/signup', function(req, res) {  
         

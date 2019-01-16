@@ -11,7 +11,7 @@ module.exports ={
                 cb('internal error',null);
             }
             else{
-                if(data===null){
+                if(data==null){
                     cb('invalidUsername',null)
                 }
                 else{
