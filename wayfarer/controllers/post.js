@@ -85,17 +85,11 @@ router.post('/edit/:id', function(req,res){
           res.json(postData)
         }
 
-      })
-
-      
-      
-      
-      
+      });
     }
   })
   
 })
-
 
 router.get('/city/:id', function(req,res){
   db.posts.find({cityid: req.params.id }).exec(function(err, data){
@@ -110,9 +104,6 @@ router.get('/city/:id', function(req,res){
         "image": post.pic,
         "id": post._id
       }
-          
-        
-      
       })
       res.json(posts)
       }
