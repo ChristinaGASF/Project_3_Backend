@@ -78,6 +78,7 @@ router.post('/signup', function(req, res) {
         
     } 
 });
+
 router.put('/edit/profile',function(req,res){
     
     var fullname = req.body.fullname;

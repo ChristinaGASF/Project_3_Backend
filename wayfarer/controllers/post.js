@@ -57,6 +57,22 @@ router.post('/newpost', upload.single("img"), function(req, res) {
 
   
 });
+router.get('/show/:id', function(req,res){
+  console.log(req.params.id);
+  db.posts.find({_id:req.params.id}).exec(function(err, data){
+    if(err){
+      
+      res.json({"error": err})
+    }else {
+      console.log(data);
+      res.json({data})
+      
+    }
+  })
+
+
+})
+
 router.delete('/:id', function(req,res){
   db.posts.findOneAndDelete({id:req.params._id}).exec(function(err, data){
     if(err){
