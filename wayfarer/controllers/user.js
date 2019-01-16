@@ -36,8 +36,9 @@ router.post('/signup', function(req, res) {
     var conPassword = req.body.conpassword;
     var city = req.body.city
     
-    if(password !== conPassword){
-        res.json({"message":"Password not match with Conform Password","status":false})
+    if(password !== conPassword || password.replace(/\s/g,'')==''  || username.replace(/\s/g,'')==''){
+        var message = (password !== conPassword || password.replace(/\s/g,'')=='')?"Invalid passwor or empty":"Username is empty";
+        res.json({"message":message,"status":false})
     }
     else{
         db.users.findOne({ username: username }, function (err,data) {
