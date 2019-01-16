@@ -22,31 +22,39 @@ router.post('/newpost', upload.single("img"), function(req, res) {
   var body = req.body.body;
   var city = req.body.cityid;
   var date = req.body.date;
-  var userid = req.body.userid;
+  
   var cityid = req.body.cityid
   var token = req.body.token
- 
-  auth.getIdFromToken(token, (err,data)=>{
-    
-    db.posts.create({
-      title: title,
-      body: body,
-      city: city,
-      date: date,
-      userid: data.data,
-      cityid: cityid,
-      pic: req.file.filename
-   }, function (err, data) {
-     if(err){
-      res.status(500).json({"message":err,"status":false});
-     }
-     else{
-         
-     }
-  });
-  })
-
+  if(body.replace(/\s/g,'')=='' || title.replace(/\s/g,'')==''){
+    var message = (body.replace(/\s/g,'')=="")?"Post Content is empty":"Post title is empty";
+    res.json({"message":message,"status":false});
+  }
+  else if(title.length > 200){
+    res.json({"message":"Post title mustnot exceed more than 200 character","status":false});
+  }
+  else{
+    auth.getIdFromToken(token, (err,data)=>{
+      db.posts.create({
+        title: title,
+        body: body,
+        city: city,
+        date: date,
+        userid: data.data,
+        cityid: cityid,
+        pic: (req.file != undefined && req.file !="")?req.file.filename:"none"
+      }, function (err, data) {
+        if(err){
+          res.status(500).json({"message":err,"status":false});
+        }
+        else{
+          res.json({"message":"Post created sucessfully","status":true});
+        }
+      });
+    })
+  }
   
+
+
   
 });
 router.delete('/:id', function(req,res){

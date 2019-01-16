@@ -29,7 +29,7 @@
         
     });
     });
-    router.post('/signup', function(req, res) {  
+router.post('/signup', function(req, res) {  
         
     var username = req.body.username;
     var password = req.body.password;
@@ -40,33 +40,45 @@
         res.json({"message":"Password not match with Conform Password","status":false})
     }
     else{
-        bcrypt.hash(password, 8, function(err, hash) {
-        if(err){
-            
-            res.status(500).json({"message":"password error found","status":false});
-        }
-        else{
-            
-            db.users.create({
-            username:username,
-            date: new Date (),
-            password:hash,
-            profilePic:'none',
-            city: city
-            }, function (err, data) {
+        db.users.findOne({ username: username }, function (err,data) {
             if(err){
-            res.status(500).json({"message":err,"status":false});
+                res.status(500).json({"message":"retry later","status":false});
+            }
+            else if(data==null){
+                bcrypt.hash(password, 8, function(err, hash) {
+                    if(err){
+                        
+                        res.status(500).json({"message":"password error found","status":false});
+                    }
+                    else{
+                        
+                        db.users.create({
+                        username:username,
+                        date: new Date (),
+                        password:hash,
+                        profilePic:'none',
+                        city: city
+                        }, function (err, data) {
+                        if(err){
+                        res.status(500).json({"message":err,"status":false});
+                        }
+                        else{
+                            res.json({"message":"Sucessfully signup","status":true});
+                            
+                        }
+                        });
+                    }
+                }); 
             }
             else{
-                res.json({"message":"Login sucessfully","status":true});
-                
+                res.json({"mesage":"username already exist","status":false})
             }
-            });
-        }
-        }); 
+           
+        });
+        
     } 
-    });
-    router.put('/edit/profile',function(req,res){
+});
+router.put('/edit/profile',function(req,res){
     
     var fullname = req.body.fullname;
     var updateData = {};
