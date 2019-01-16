@@ -1,5 +1,5 @@
-# Project 3 Classic Traveler Backend
-- Frontend [https://github.com/ChristinaGASF/project_3_frontend]
+# Project 3 Classic Traveler | Backend of App
+- Frontend of App [https://github.com/ChristinaGASF/project_3_frontend]
 
 ## Description: 
 We have been commissioned to build a travel community site, Classic Traveler for users to share city-specific tips about their favorite museums, historical sites and landmark iconic city spots. around the world.
@@ -36,11 +36,12 @@ We have been commissioned to build a travel community site, Classic Traveler for
 ## Color Scheme & Theme
 - Grey & White
 - Museums, Historical & Landmarks
+<img src=https://github.com/ChristinaGASF/project_3_frontend/blob/master/wayfarer/public/images/marble_2.jpg>
 
 ## Link to Heroku hosted project
 
 
 ## Futher Exploration Goals
-<img src=https://github.com/ChristinaGASF/project_3_frontend/blob/master/wayfarer/public/images/default_user_icon.png>
 - Profile Photo
 - Commenting
+- Mapping with Pins
