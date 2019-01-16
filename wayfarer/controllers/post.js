@@ -64,16 +64,24 @@ router.delete('/:id', function(req,res){
 router.post('/edit/:id', function(req,res){
   var title = req.body.title
   var body = req.body.body
-  var image = req.body.img
-  db.posts.findOneAndUpdate({id:req.params._id}).exec(function(err,data){
+  db.posts.findOneAndUpdate({_id:req.params.id}, {  "title": title,
+  "body": body}).exec(function(err,data){
     if(err){
       res.json({"error": err})
     }else{
+      db.posts.find({_id:data._id}).exec(function(err, postData){
+        if(err){
+          res.useChunkedEncodingByDefault({"error": err})
 
-      return{
-        "title": data.title,
-        "body": data.body
-      }
+        }else {
+          res.json(postData)
+        }
+
+      })
+
+      
+      
+      
       
     }
   })
