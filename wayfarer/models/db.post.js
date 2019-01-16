@@ -4,7 +4,7 @@ const posts = new mongoose.Schema({
     title:String,
     body:String,
     city: String,
-    date:String,
+    date:Number,
     pic:String,
     commentStatus:Boolean,
     userid:{

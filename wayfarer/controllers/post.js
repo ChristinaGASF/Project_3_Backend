@@ -38,7 +38,7 @@ router.post('/newpost', upload.single("img"), function(req, res) {
         title: title,
         body: body,
         city: city,
-        date: date,
+        date: new Date(),
         userid: data.data,
         cityid: cityid,
         pic: (req.file != undefined && req.file !="")?req.file.filename:"none"
@@ -74,7 +74,7 @@ router.get('/show/:id', function(req,res){
 })
 
 router.delete('/:id', function(req,res){
-  db.posts.findOneAndDelete({id:req.params._id}).exec(function(err, data){
+  db.posts.findOneAndDelete({_id:req.params.id}).exec(function(err, data){
     if(err){
       res.json({"error": err})
     }else {
@@ -108,7 +108,7 @@ router.post('/edit/:id', function(req,res){
 })
 
 router.get('/city/:id', function(req,res){
-  db.posts.find({cityid: req.params.id }).exec(function(err, data){
+  db.posts.find({cityid: req.params.id }).populate("userid").sort({date: "desc"}).exec(function(err, data){
     if(err){
       res.json({"error":err})
     }else{
@@ -118,7 +118,9 @@ router.get('/city/:id', function(req,res){
         "title": post.title,
         "body": post.body,
         "image": post.pic,
-        "id": post._id
+        "id": post._id,
+        "user":post.userid,
+        "date": ((Date.now() - post.date) / 60000).toFixed(1)
       }
       })
       res.json(posts)

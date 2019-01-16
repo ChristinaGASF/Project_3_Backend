@@ -69,7 +69,7 @@ router.post('/signup', function (req, res) {
                                 res.status(500).json({ "message": err, "status": false });
                             }
                             else {
-                                res.json({ "message": "Sucessfully signup", "status": true });
+                                res.json({ "message": "Successful Signup", "status": true });
 
                             }
                         });
@@ -77,21 +77,15 @@ router.post('/signup', function (req, res) {
                 });
             }
             else {
-                res.json({ "mesage": "username already exist", "status": false })
+                res.json({ "mesage": "username already exists", "status": false })
             }
 
         });
 
     }
 });
-<<<<<<< HEAD
-
-router.put('/edit/profile',function(req,res){
-    
-=======
 router.put('/edit/profile', function (req, res) {
 
->>>>>>> 0501c153d164eeba6ed818dc6b0ca6cfa99011e3
     var fullname = req.body.fullname;
     var updateData = {};
     var city = req.body.city;
