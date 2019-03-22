@@ -39,7 +39,7 @@ We have been commissioned to build a travel community site, Classic Traveler for
 <img src=https://github.com/ChristinaGASF/project_3_frontend/blob/master/wayfarer/public/images/marble_2.jpg>
 
 ## Link to Heroku hosted project
-
+https://wayfarerfrontend.herokuapp.com/home
 
 ## Futher Exploration Goals
 - Profile Photo
